@@ -1,0 +1,60 @@
+SYS:
+  MULTIPROCESS: True
+
+MODEL:
+  NAME: "TransitionRecommendation"
+  USE_CHECKPOINT: False
+  TRANSITION_TRANSFORMER:
+    EMBEDDING:
+      PRETRAINED_EMBEDDING: null
+      TRANSITION_EMBEDDING_PROJECTION: True
+      RANDOM_INITIALIZE: False
+      D_COMMON_SPACE: 2048
+
+BACKBONE:
+  SLOWFAST:
+    DATA:
+      NUM_FRAMES: 16
+
+LOADER:
+  BATCH_SIZE: 4
+  NUM_WORKERS: 4
+  PREFETCH: 12
+  COLLATE_FN: "visual_music_collate_fn"
+
+DATASET:
+  NAME: "MultimodalTransitionRecommendationDataset"
+  TRANSITION_DATASET:
+    JSON_ANNOTATION: null
+    TEMPLATE_ROOT: null
+    FRAME_PER_CLIP: 16
+    SEQUENCE:
+      MAX_SEQUENCE_LEN: 8
+
+LOSS:
+  TRIPLET_LOSS:
+    DISTANCE: "dot-production"
+
+METER:
+  MATCHING_ACCURACY:
+    DISTANCE: "dot-production"
+
+TRAIN:
+  EPOCH: 30
+  OPTIMIZER:
+    INIT_LR: 1e-5
+  LOSS:
+    NAME: "MaskedTripletLoss"
+  METER: "MaskedTripletMatchingAccuracy"
+  SCHEDULER_WARMUP:
+    EPOCH: 5
+  SCHEDULER:
+    STEP:
+      LR_DECAY_EPOCH: 10
+
+TEST:
+  ENABLE: True
+  METER: "MaskedTripletMatchingAccuracy"
+
+LOG:
+  DIR: "./log/base/train_transition_recommendation"

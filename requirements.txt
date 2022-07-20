@@ -1,0 +1,17 @@
+torch
+torchvision
+pytorchvideo
+einops
+tqdm
+numpy
+fvcore
+yacs
+opencv-python
+matplotlib
+moviepy
+tensorboard
+scikit-learn
+requests
+PyYAML
+librosa
+SoundFile

@@ -1,0 +1,6 @@
+.idea/
+.DS_Store
+*.pyc
+
+log/
+model_zoo/slowfast/

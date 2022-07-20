@@ -1,0 +1,43 @@
+SYS:
+  MULTIPROCESS: True
+
+MODEL:
+  NAME: "TransitionEmbedding"
+
+BACKBONE:
+  SLOWFAST:
+    DATA:
+      NUM_FRAMES: 16
+
+LOADER:
+  NUM_WORKERS: 8
+  BATCH_SIZE: 32
+
+DATASET:
+  NAME: "TransitionClassificationDataset"
+  TRANSITION_CLASSIFICATION:
+    JSON_ANNOTATION: null
+    TEMPLATE_ROOT: null
+    FRAME_PER_CLIP: 16
+
+TRAIN:
+  ENABLE: True
+  EPOCH: 30
+  OPTIMIZER:
+    INIT_LR: 1e-3
+  LOSS:
+    NAME: "ClassificationLoss"
+  METER: "ContrastiveFeatureMeter"
+  SCHEDULER_WARMUP:
+    EPOCH: 5
+    INIT_LR: 1e-6
+  SCHEDULER:
+    STEP:
+      LR_DECAY_EPOCH: 10
+
+TEST:
+  ENABLE: True
+  METER: "ContrastiveFeatureMeter"
+
+LOG:
+  DIR: "./log/base/train_transition_embedding"
