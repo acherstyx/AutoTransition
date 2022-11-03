@@ -22,7 +22,6 @@ logger = logging.getLogger(__name__)
 
 def build_loader(cfg: CfgNode, mode=("train", "test", "val")):
     assert cfg.DATASET.NAME is not None, "specify a dataset to load in config: DATASET.NAME"
-    assert not cfg.LOADER.USE_DALI or cfg.SYS.NUM_GPU > 0, "DALI dataloader need GPU to work properly"
 
     if not isinstance(mode, tuple):
         mode = (mode,)
