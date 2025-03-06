@@ -4,12 +4,21 @@
 # @Project : AutoTransition
 # @File    : run_net.py
 
+import logging
+import os
+
 import torch.multiprocessing as mp
 
-from config import parse_args, get_config
-from tools.train_net import train
-from tools.test_net import test
-from utils import *
+from autotransition.config import parse_args, get_config
+from autotransition.tools.test_net import test
+from autotransition.tools.train_net import train
+from autotransition.utils import (
+    get_timestamp,
+    setup_logging,
+    init_distributed,
+    save_config,
+    manual_seed
+)
 
 logger = logging.getLogger(__name__)
 

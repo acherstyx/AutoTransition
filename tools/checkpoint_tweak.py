@@ -4,10 +4,11 @@
 # @Project : AutoTransition
 # @File    : checkpoint_tweak.py
 
-import torch
 import argparse
-from typing import *
 from collections import OrderedDict
+from typing import *
+
+import torch
 
 parser = argparse.ArgumentParser(description="Checkpoint tool")
 parser_sub = parser.add_subparsers(required=True, dest="function")

@@ -4,16 +4,17 @@
 # @Project : AutoTransition
 # @File    : download_videos.py
 
-import os
-import json
 import argparse
-import requests
-import joblib
-import time
-import shutil
-import logging
-import traceback
 import contextlib
+import json
+import logging
+import os
+import shutil
+import time
+import traceback
+
+import joblib
+import requests
 from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
@@ -80,7 +81,8 @@ def main():
     if not args.aria2c_input_file:
         with tqdm_joblib(tqdm(total=len(download_list), desc="Downloading")):
             result = joblib.Parallel(n_jobs=args.process)(
-                joblib.delayed(download_template_video)(args.output_dir, tid, url, args.verbose) for tid, url in download_list
+                joblib.delayed(download_template_video)(args.output_dir, tid, url, args.verbose) for tid, url in
+                download_list
             )
         print(f"Success: {sum(result)}")
         print(f"Failed: {len(result) - sum(result)}")
