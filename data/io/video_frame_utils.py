@@ -4,18 +4,19 @@
 # @Project : AutoTransition
 # @File    : video_frame_utils.py
 
+import logging
 import os
 import shutil
-import logging
-import tqdm
-import einops
-import torchvision
-import torchvision.transforms.functional as F
-import torch
-import functools
-from torch.utils import data
+import traceback
 from fractions import Fraction
 from typing import *
+
+import einops
+import torch
+import torchvision
+import torchvision.transforms.functional as F
+import tqdm
+from torch.utils import data
 
 logger = logging.getLogger(__name__)
 
@@ -93,7 +94,11 @@ class _Converter(data.Dataset):
         return len(self.video_list)
 
     def __getitem__(self, index):
-        self._convert_func(self.video_list[index])
+        try:
+            self._convert_func(self.video_list[index])
+        except Exception as e:
+            logger.warning(f"Failed to convert video: {self.video_list[index]}, error: {e}. "
+                           f"Error stack for debugging: {traceback.format_exc()}")
 
 
 def convert_tasker(convert_task_list, postfix=".frame", overwrite=False, delete_video=False, resize_size=320,

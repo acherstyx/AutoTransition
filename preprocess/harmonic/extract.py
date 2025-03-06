@@ -1,13 +1,13 @@
 import logging
-
+import moviepy.editor as mp
+import numpy as np
 import torch
+import traceback
+import warnings
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data._utils import collate
-from .harmonic_cnn import HarmonicCNN, metric_mlp, l2_norm
-import numpy as np
 
-import moviepy.editor as mp
-import warnings
+from .harmonic_cnn import HarmonicCNN, metric_mlp, l2_norm
 
 dim_audio_fea = 256  # dim
 dim_metric = 100
@@ -24,7 +24,8 @@ def decode_wav_to_wav_bytes(video, sample_rate=16000):
         audio_wave = np.array([a for a, b in vc.audio.to_soundarray(fps=sample_rate, nbytes=8)])
         return audio_wave
     except Exception as e:
-        logger.info("Failed to decode audio wave from video: %s", video)
+        logger.warning("Failed to decode audio wave from video: %s \nFull error stack for debugging: %s",
+                       video, traceback.format_exc())
         return None
 
 
@@ -226,7 +227,7 @@ class MusicLocalFeatureSynchronized(MusicLocalFeature):
                 result['embed'] = out_embeds
                 yield result
             except Exception as e:
-                logger.info("Extractor received failure while processing a sample: {}".format(e))
+                logger.warning("Extractor received failure while processing a sample: {}".format(e))
                 yield None
 
 

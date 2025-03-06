@@ -3,12 +3,12 @@ torchvision
 pytorchvideo
 einops
 tqdm
-numpy
+numpy==1.24.3 # moviepy issue: https://github.com/Zulko/moviepy/issues/2025
 fvcore
 yacs
 opencv-python
 matplotlib
-moviepy
+moviepy==1.0.3
 tensorboard
 scikit-learn
 requests
@@ -16,3 +16,4 @@ PyYAML
 librosa
 SoundFile
 joblib
+pyav==11.1.0
